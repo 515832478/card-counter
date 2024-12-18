@@ -1,1 +1,79 @@
-<h1>呃呃呃呃呃呃呃</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        border-collapse: collapse;
+        text-align: center;
+        margin: auto; /* 让表格居中 */
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+      th {
+        background-color: #f2f2f2;
+        color: black;
+        font-weight: bold;
+      }
+      td {
+        color: red;
+        background-color: #f2f2f2;
+      }
+      h2 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="cardTable">
+      <thead>
+        <tr id="headerRow"></tr>
+      </thead>
+      <tbody>
+        <tr id="countRow"></tr>
+      </tbody>
+    </table>
+
+    <script>
+      // 初始化数量数组（可以是任意初始值）
+      var cardCounts = [1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4];
+      var cardTypes = ["大", "小", "2", "A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3"];
+
+      function populateTable(counts) {
+        var headerRow = document.getElementById("headerRow");
+        var countRow = document.getElementById("countRow");
+
+        // 清空现有的表格内容（如果有的话）
+        headerRow.innerHTML = "";
+        countRow.innerHTML = "";
+
+        // 遍历数组并填充表格
+        for (var i = 0; i < cardTypes.length; i++) {
+          // 创建表头单元格
+          var th = document.createElement("th");
+          th.textContent = cardTypes[i];
+          headerRow.appendChild(th);
+
+          // 创建数据行单元格
+          var td = document.createElement("td");
+          td.textContent = counts[i];
+          td.style.color = "red"; // 确保数量是红色的
+          countRow.appendChild(td);
+        }
+      }
+
+      // 初始调用以填充表格
+      populateTable(cardCounts);
+
+      // 监听来自父窗口的消息
+      window.addEventListener("message", function (event) {
+        // 处理接收到的消息
+        if (event.data.type === "updateCounts") {
+          populateTable(event.data.data);
+        }
+      });
+    </script>
+  </body>
+</html>
